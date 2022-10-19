@@ -31,20 +31,38 @@ with open("C:\\Users\\sxc210186\\Documents\\GitHub\\CSAW\\SAT_solver\\netlist.tx
             outp.append(part[0].split("(")[1].split(")")[0])
             print(part[0].split("(")[1].split(")")[0],"&")
         
-        #miter circuit
+        
+        # half miter circuit
         if " nand" == gates[0]:
-            print(part[0], "<=> ~(",inp1[0],"&",inp2[0],")&")
+            print(part[0]+ "<=> ~("+inp1[0]+" & "+inp2[0]+")&")
         elif " and" == gates[0]:
-            print(part[0], "<=> ~(",inp1[0],"&",inp2[0],")&")
+            print(part[0]+ "<=> ~("+inp1[0]+" & "+inp2[0]+")&")
         elif " xnor" == gates[0]:
-            print(part[0], "<=> ~(",inp1[0],"+",inp2[0],")&")
+            print(part[0]+ "<=> ~("+inp1[0]+" + "+inp2[0]+")&")
         elif " xor" == gates[0]:
-            print(part[0], "<=> (",inp1[0],"+",inp2[0],")&")
+            print(part[0]+ "<=> ("+inp1[0]+" + "+inp2[0]+")&")
         elif " nor" == gates[0]:
-            print(part[0], "<=> ~(",inp1[0],"|",inp2[0],")&")
+            print(part[0]+ "<=> ~("+inp1[0]+" | "+inp2[0]+")&")
         elif " or" == gates[0]:
-            print(part[0], "<=> (",inp1[0],"|",inp2[0],")&")
+            print(part[0]+ "<=> ("+inp1[0]," | "+inp2[0]+")&")
         elif " not" == gates[0]:
-            print(part[0], "<=> ~(",inp1[0].partition(")")[0],")&")
+            print(part[0]+"<=> ~("+inp1[0].partition(")")[0]+")&")
+
+        #other Half miter circuit
+        if " nand" == gates[0]:
+            print(part[0].split()[0]+"'"+ "<=> ~("+inp1[0]+" & "+inp2[0]+")&")
+        elif " and" == gates[0]:
+            print(part[0].split()[0]+"'"+ "<=> ~("+inp1[0]+" & "+inp2[0]+")&")
+        elif " xnor" == gates[0]:
+            print(part[0].split()[0]+"'"+ "<=> ~("+inp1[0]+" + "+inp2[0]+")&")
+        elif " xor" == gates[0]:
+            print(part[0].split()[0]+"'"+ "<=> ("+inp1[0]+" + "+inp2[0]+")&")
+        elif " nor" == gates[0]:
+            print(part[0].split()[0]+"'"+ "<=> ~("+inp1[0]+" | "+inp2[0]+")&")
+        elif " or" == gates[0]:
+            print(part[0].split()[0]+"'"+ "<=> ("+inp1[0]," | "+inp2[0]+")&")
+        elif " not" == gates[0]:
+            print(part[0].split()[0]+"'"+"<=> ~("+inp1[0].partition(")")[0]+")&")
+
 
         
