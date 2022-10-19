@@ -31,6 +31,7 @@ with open("C:\\Users\\sxc210186\\Documents\\GitHub\\CSAW\\SAT_solver\\netlist.tx
             a=part[1].split("(")[1].split(",")[0]
             b=part[1].split("(")[1].split(",")[1].split(")")[0]
             tempout = part[0].split()[0]
+            tempoutx = tempout+"x"
             tempoutlist.append(tempout)
 
         
@@ -58,7 +59,6 @@ with open("C:\\Users\\sxc210186\\Documents\\GitHub\\CSAW\\SAT_solver\\netlist.tx
                         key.append(part[0].split("(")[1].split(")")[0])
                         print(part[0].split("(")[1].split(")")[0],"&")
             #other Half miter circuit
-                tempoutx = tempout+"x"
                 if " nand" == gates[0]:
                     print("("+"~("+a+"&"+b+") <=> "+tempoutx+") &")
                 elif " and" == gates[0]:
