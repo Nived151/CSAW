@@ -10,69 +10,72 @@ insert the variables when the dip is false to get keys'''
 key=[]
 inp=[]
 outp=[]
+tempoutlist=[]
 with open("C:\\Users\\sxc210186\\Documents\\GitHub\\CSAW\\SAT_solver\\netlist.txt", 'r') as f:
     lines = f.readlines()
     for line in lines:
-        part = line.partition('=')
-        io=part[0].partition("(")
-        gates = part[2].partition("(")
-        inp1 = gates[2].partition(",")
-        inp2 = inp1[2].partition(")")
+        part = line.split('=')
         
-        def iokeys():
-        # inp, keys, out as list
-            if "INPUT" in part[0]:
-                if("k" in part[0].split("(")[1].split(")")[0]):
-                    key.append(part[0].split("(")[1].split(")")[0])
-                    print(part[0].split("(")[1].split(")")[0],"&")
-                else:
-                    inp.append(part[0].split("(")[1].split(")")[0])
-                    print(part[0].split("(")[1].split(")")[0],"&")
-            if "OUTPUT" in part[0]:
-                outp.append(part[0].split("(")[1].split(")")[0])
+        if "INPUT" in part[0]:
+            if("k" in part[0]):
+                key.append(part[0].split("(")[1].split(")")[0])
                 print(part[0].split("(")[1].split(")")[0],"&")
+            else:
+                inp.append(part[0].split("(")[1].split(")")[0])
+                print(part[0].split("(")[1].split(")")[0],"&")
+        elif "OUTPUT" in part[0]:
+            outp.append(part[0].split("(")[1].split(")")[0])
+            print(part[0].split("(")[1].split(")")[0],"&")
+        else:
+            gates = part[1].split("(")
+            a=part[1].split("(")[1].split(",")[0]
+            b=part[1].split("(")[1].split(",")[1].split(")")[0]
+            tempout = part[0].split()[0]
+            tempoutlist.append(tempout)
+
         
-        def miter_firsthalf():
-        # half miter circuit
-            if " nand" == gates[0]:
-                print("("+"~("+inp1[0]+"&"+inp2[0]+") <=> "+part[0].split()[0]+") &")
-            elif " and" == gates[0]:
-                print("("+ "("+inp1[0]+"&"+inp2[0]+") <=> "+part[0].split()[0]+") &")
-            elif " xnor" == gates[0]:
-                print("("+ "~("+inp1[0]+"+"+inp2[0]+") <=> "+part[0].split()[0]+") &")
-            elif " xor" == gates[0]:
-                print("("+ "("+inp1[0]+"+"+inp2[0]+") <=> "+part[0].split()[0]+") &")
-            elif " nor" == gates[0]:
-                print("("+ "~("+inp1[0]+"|"+inp2[0]+") <=> "+part[0].split()[0]+") &")
-            elif " or" == gates[0]:
-                print("("+ "("+inp1[0]+"|"+inp2[0]+") <=> "+part[0].split()[0]+") &")
-            elif " not" == gates[0]:
-                print("("+"~("+inp1[0].partition(")")[0]+") <=> "+part[0].split()[0]+") &")
+            def miter_firsthalf():
+            # half miter circuit
+                if " nand" == gates[0]:
+                    print("("+"~("+a+"&"+b+") <=> "+tempout+") &")
+                elif " and" == gates[0]:
+                    print("("+ "("+a+"&"+b+") <=> "+tempout+") &")
+                elif " xnor" == gates[0]:
+                    print("("+ "~("+a+"+"+b+") <=> "+tempout+") &")
+                elif " xor" == gates[0]:
+                    print("("+ "("+a+"+"+b+") <=> "+tempout+") &")
+                elif " nor" == gates[0]:
+                    print("("+ "~("+a+"|"+b+") <=> "+tempout+") &")
+                elif " or" == gates[0]:
+                    print("("+ "("+a+"|"+b+") <=> "+tempout+") &")
+                elif " not" == gates[0]:
+                    print("("+"~("+a.partition(")")[0]+") <=> "+tempout+") &")
 
-        def miter_secondhalf():
-            if "INPUT" in part[0]:
-                if("k" in part[0].split("(")[1].split(")")[0]):
-                    #part[0]=part[0]+"x"
-                    key.append(part[0].split("(")[1].split(")")[0])
-                    print(part[0].split("(")[1].split(")")[0],"&")
-        #other Half miter circuit
-            if " nand" == gates[0]:
-                print("("+"~("+inp1[0]+"&"+inp2[0]+") <=> "+part[0].split()[0]+"x"+") &")
-            elif " and" == gates[0]:
-                print("("+ "("+inp1[0]+"&"+inp2[0]+") <=> "+part[0].split()[0]+"x"+") &")
-            elif " xnor" == gates[0]:
-                print("("+ "~("+inp1[0]+"+"+inp2[0]+") <=> "+part[0].split()[0]+"x"+") &")
-            elif " xor" == gates[0]:
-                print("("+ "("+inp1[0]+"+"+inp2[0]+") <=> "+part[0].split()[0]+"x"+") &")
-            elif " nor" == gates[0]:
-                print("("+ "~("+inp1[0]+"|"+inp2[0]+") <=> "+part[0].split()[0]+"x"+") &")
-            elif " or" == gates[0]:
-                print("("+ "("+inp1[0]+"|"+inp2[0]+") <=> "+part[0].split()[0]+"x"+") &")
-            elif " not" == gates[0]:
-                print("("+"~("+inp1[0].partition(")")[0]+") <=> "+part[0].split()[0]+") &")
+            def miter_secondhalf():
+                if "INPUT" in part[0]:
+                    if("k" in part[0].split("(")[1].split(")")[0]):
+                        part[0]=part[0]+"x"
+                        key.append(part[0].split("(")[1].split(")")[0])
+                        print(part[0].split("(")[1].split(")")[0],"&")
+            #other Half miter circuit
+                tempoutx = tempout+"x"
+                if " nand" == gates[0]:
+                    print("("+"~("+a+"&"+b+") <=> "+tempoutx+") &")
+                elif " and" == gates[0]:
+                    print("("+ "("+a+"&"+b+") <=> "+tempoutx+") &")
+                elif " xnor" == gates[0]:
+                    print("("+ "~("+a+"+"+b+") <=> "+tempoutx+") &")
+                elif " xor" == gates[0]:
+                    print("("+ "("+a+"+"+b+") <=> "+tempoutx+") &")
+                elif " nor" == gates[0]:
+                    print("("+ "~("+a+"|"+b+") <=> "+tempoutx+") &")
+                elif " or" == gates[0]:
+                    print("("+ "("+a+"|"+b+") <=> "+tempoutx+") &")
+                elif " not" == gates[0]:
+                    print("("+"~("+a.partition(")")[0]+") <=> "+tempoutx+") &")
             
-
-        #miter_firsthalf()
-        miter_secondhalf()
+            #iokeys()
+            #miter_firsthalf()
+            miter_secondhalf()
 
         
