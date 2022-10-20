@@ -52,13 +52,30 @@ with open("C:\\Users\\sxc210186\\Documents\\GitHub\\CSAW\\SAT_solver\\netlist.tx
                 elif " not" == gates[0]:
                     print("("+"~("+a.partition(")")[0]+") <=> "+tempout+") &")
 
-            def miter_secondhalf():
-                if "INPUT" in part[0]:
-                    if("k" in part[0].split("(")[1].split(")")[0]):
-                        part[0]=part[0]+"x"
-                        key.append(part[0].split("(")[1].split(")")[0])
-                        print(part[0].split("(")[1].split(")")[0],"&")
-            #other Half miter circuit
+        def miter_secondhalf():
+            if len(part)>1:
+                gates = part[1].split("(")
+                if "k" in part[1]:
+                    a=part[1].split("(")[1].split(",")[0]+"x"
+                else:
+                    a=part[1].split("(")[1].split(",")[0]
+                if "u" in part[1].split("(")[1].split(",")[0]:
+                    a=part[1].split("(")[1].split(",")[0]+"x"
+                else:
+                    a=part[1].split("(")[1].split(",")[0]
+
+                if "k" in part[1].split("(")[1].split(",")[1].split(")")[0]:
+                    b=part[1].split("(")[1].split(",")[1].split(")")[0]+"x"
+                else:
+                    b=part[1].split("(")[1].split(",")[1].split(")")[0]
+                if "u" in part[1].split("(")[1].split(",")[1].split(")")[0]:
+                    b=part[1].split("(")[1].split(",")[1].split(")")[0]+"x"
+                else:
+                    b=part[1].split("(")[1].split(",")[1].split(")")[0]
+                tempout = part[0].split()[0]
+                tempoutx = tempout+"x"
+                tempoutlist.append(tempout)
+                #other Half miter circuit
                 if " nand" == gates[0]:
                     print("("+"~("+a+"&"+b+") <=> "+tempoutx+") &")
                 elif " and" == gates[0]:
@@ -76,6 +93,6 @@ with open("C:\\Users\\sxc210186\\Documents\\GitHub\\CSAW\\SAT_solver\\netlist.tx
             
             #iokeys()
             #miter_firsthalf()
-            miter_secondhalf()
+        miter_secondhalf()
 
         
